@@ -1071,7 +1071,12 @@
      ============================================ -->
 <div id="auth-screen">
   <div class="auth-container">
-    <div class="auth-logo">Phoenix<span>Services</span></div>
+    <div class="auth-logo">
+      <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+      </svg>
+      Phoenix<span>Services</span>
+    </div>
     <p class="auth-tagline">Flight Path Intelligence — Weather-Aware Route Optimization</p>
 
     <div class="auth-card">
@@ -1570,6 +1575,16 @@ function initMap() {
     fetchWeatherForLocation(e.latlng.lat, e.latlng.lng);
   });
 
+  // Clear canvases on map move to prevent streaking
+  map.on('movestart', function() {
+    if (state.windAnimFrame) {
+      cancelAnimationFrame(state.windAnimFrame);
+      state.windAnimFrame = null;
+    }
+    const windCanvas = document.getElementById('wind-canvas');
+    windCanvas.getContext('2d').clearRect(0, 0, windCanvas.width, windCanvas.height);
+  });
+
   // Track map movements for weather grid updates
   map.on('moveend', function() {
     const center = map.getCenter();
@@ -1625,9 +1640,10 @@ async function fetchWeatherForLocation(lat, lng) {
   showLoading(true);
 
   try {
+    // Removed timezone=auto so it defaults to GMT. This makes indexing by UTC hour reliable.
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}` +
       `&hourly=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover,rain,snowfall,visibility,weather_code,relative_humidity_2m,dew_point_2m,precipitation_probability` +
-      `&forecast_days=3&timezone=auto`;
+      `&forecast_days=3`;
 
     const response = await fetch(url);
     if (!response.ok) throw new Error(`API error: ${response.status}`);
@@ -1646,7 +1662,14 @@ async function fetchWeatherForLocation(lat, lng) {
 
 function displayWeatherData(data, lat, lng) {
   const hourly = data.hourly;
-  const hour = state.selectedHour;
+  
+  // Calculate the correct hour index based on UTC time and the selected timeline slider
+  const now = new Date();
+  const utcHour = now.getUTCHours();
+  // Open-Meteo with GMT timezone starts at midnight GMT of the current day.
+  const hourIndex = utcHour + state.selectedHour;
+
+  if (hourIndex >= hourly.temperature_2m.length) return; // safeguard
 
   // Find nearest airport for display name
   let locationName = `${lat.toFixed(2)}°, ${lng.toFixed(2)}°`;
@@ -1660,18 +1683,19 @@ function displayWeatherData(data, lat, lng) {
   });
 
   document.getElementById('wx-location').textContent = locationName;
-  document.getElementById('wx-temp').textContent = `${hourly.temperature_2m[hour]}°C`;
-  document.getElementById('wx-wind').textContent = `${hourly.wind_speed_10m[hour]} km/h @ ${hourly.wind_direction_10m[hour]}°`;
-  document.getElementById('wx-gusts').textContent = `${hourly.wind_gusts_10m[hour]} km/h`;
-  document.getElementById('wx-clouds').textContent = `${hourly.cloud_cover[hour]}%`;
-  document.getElementById('wx-rain').textContent = `${hourly.rain[hour]} mm`;
-  document.getElementById('wx-snow').textContent = `${hourly.snowfall[hour]} cm`;
-  document.getElementById('wx-visibility').textContent = formatVisibility(hourly.visibility[hour]);
-  document.getElementById('wx-humidity').textContent = `${hourly.relative_humidity_2m[hour]}%`;
-  document.getElementById('wx-condition').textContent = WMO_CODES[hourly.weather_code[hour]] || 'Unknown';
+  document.getElementById('wx-temp').textContent = `${hourly.temperature_2m[hourIndex]}°C`;
+  document.getElementById('wx-wind').textContent = `${hourly.wind_speed_10m[hourIndex]} km/h @ ${hourly.wind_direction_10m[hourIndex]}°`;
+  document.getElementById('wx-gusts').textContent = `${hourly.wind_gusts_10m[hourIndex]} km/h`;
+  document.getElementById('wx-clouds').textContent = `${hourly.cloud_cover[hourIndex]}%`;
+  document.getElementById('wx-rain').textContent = `${hourly.rain[hourIndex]} mm`;
+  document.getElementById('wx-snow').textContent = `${hourly.snowfall[hourIndex]} cm`;
+  document.getElementById('wx-visibility').textContent = formatVisibility(hourly.visibility[hourIndex]);
+  document.getElementById('wx-humidity').textContent = `${hourly.relative_humidity_2m[hourIndex]}%`;
+  document.getElementById('wx-condition').textContent = WMO_CODES[hourly.weather_code[hourIndex]] || 'Unknown';
 }
 
 function formatVisibility(meters) {
+  if (meters === null || meters === undefined) return 'N/A';
   if (meters >= 10000) return `${(meters / 1000).toFixed(0)} km`;
   if (meters >= 1000) return `${(meters / 1000).toFixed(1)} km`;
   return `${meters} m`;
@@ -1773,16 +1797,67 @@ function resizeCanvases() {
 }
 
 // --- WIND PARTICLES ---
+function buildWindField() {
+  const canvas = document.getElementById('wind-canvas');
+  state.windField = {
+    width: Math.ceil(canvas.width / 20) + 1,
+    height: Math.ceil(canvas.height / 20) + 1,
+    scale: 20,
+    field: []
+  };
+
+  const gridData = state.gridWeatherData || [];
+  if (gridData.length === 0) return;
+
+  const screenGrid = gridData.filter(d => d.data).map(d => {
+    const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+    const angle = (d.data.windDir - 90) * (Math.PI / 180);
+    return {
+      x: pt.x,
+      y: pt.y,
+      u: Math.cos(angle) * d.data.windSpeed * 0.12,
+      v: Math.sin(angle) * d.data.windSpeed * 0.12,
+      speed: d.data.windSpeed
+    };
+  });
+
+  if (screenGrid.length === 0) return;
+
+  for (let y = 0; y < state.windField.height; y++) {
+    for (let x = 0; x < state.windField.width; x++) {
+      let px = x * 20;
+      let py = y * 20;
+
+      let sumU = 0, sumV = 0, sumSpeed = 0, sumWeight = 0;
+      for (let i = 0; i < screenGrid.length; i++) {
+        let dx = px - screenGrid[i].x;
+        let dy = py - screenGrid[i].y;
+        let distSq = dx * dx + dy * dy;
+        if (distSq < 1) distSq = 1;
+        let weight = 1 / distSq;
+        sumU += screenGrid[i].u * weight;
+        sumV += screenGrid[i].v * weight;
+        sumSpeed += screenGrid[i].speed * weight;
+        sumWeight += weight;
+      }
+
+      state.windField.field.push({
+        u: sumU / sumWeight,
+        v: sumV / sumWeight,
+        speed: sumSpeed / sumWeight
+      });
+    }
+  }
+}
+
 function initWindParticles() {
   state.windParticles = [];
   const canvas = document.getElementById('wind-canvas');
-  const count = 800;
+  const count = 3000; // Increased count for flowy aesthetic
   for (let i = 0; i < count; i++) {
     state.windParticles.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      speed: 0.5 + Math.random() * 2,
-      angle: Math.random() * Math.PI * 2,
       life: Math.random() * 100,
       maxLife: 60 + Math.random() * 80,
       opacity: 0
@@ -1800,28 +1875,23 @@ function animateWind() {
   const canvas = document.getElementById('wind-canvas');
   const ctx = canvas.getContext('2d');
   
-  // Create trailing effect for Windy.com style streamline animations
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+  // Fade previous frames to create trailing effect without darkening the map
+  ctx.globalCompositeOperation = 'destination-in';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = 'source-over';
 
-  const gridData = state.gridWeatherData || [];
-
-  // Helper to interpolate wind at (x,y)
+  // Helper to interpolate wind at (x,y) via precomputed grid
   const getWindAt = (x, y) => {
-    if (gridData.length === 0) return { speed: 2, angle: 0 };
-    const latlng = map.containerPointToLatLng(L.point(x, y));
-    let nearest = gridData[0];
-    let minDist = Infinity;
-    for (let i=0; i<gridData.length; i++) {
-        let d = Math.abs(gridData[i].lat - latlng.lat) + Math.abs(gridData[i].lng - latlng.lng);
-        if (d < minDist) { minDist = d; nearest = gridData[i]; }
-    }
-    // API windDir is meteorological (degrees from north), convert to canvas angle
-    let canvasAngle = (nearest.data.windDir - 90) * (Math.PI / 180);
-    return { speed: nearest.data.windSpeed * 0.15, angle: canvasAngle };
+    if (!state.windField || state.windField.field.length === 0) return { speed: 2, u: 2, v: 0 };
+    const col = Math.max(0, Math.min(state.windField.width - 1, Math.floor(x / state.windField.scale)));
+    const row = Math.max(0, Math.min(state.windField.height - 1, Math.floor(y / state.windField.scale)));
+    const vec = state.windField.field[row * state.windField.width + col];
+    if (!vec) return { speed: 2, u: 2, v: 0 };
+    return vec;
   };
 
-  ctx.lineWidth = 1.8;
+  ctx.lineWidth = 1.2;
 
   state.windParticles.forEach(p => {
     p.life++;
@@ -1838,8 +1908,8 @@ function animateWind() {
     const alpha = Math.min(p.opacity, fadeOut) * 0.9;
 
     const wind = getWindAt(p.x, p.y);
-    const speedX = Math.cos(wind.angle) * wind.speed;
-    const speedY = Math.sin(wind.angle) * wind.speed;
+    const speedX = wind.u;
+    const speedY = wind.v;
 
     const nextX = p.x + speedX;
     const nextY = p.y + speedY;
@@ -2021,6 +2091,7 @@ async function updateWeatherOverlays() {
 
   try {
     await fetchWeatherGrid();
+    buildWindField();
 
     // Wind particles
     if (state.activeLayers.has('wind')) {
@@ -2147,14 +2218,20 @@ async function computeRoute() {
   const depInput = document.getElementById('departure-input').value.trim();
   const arrInput = document.getElementById('arrival-input').value.trim();
 
-  // Robust check: if inputs are filled but state is empty, try to resolve from AIRPORTS
-  if (depInput && !state.departureAirport) {
-    const found = AIRPORTS.find(a => a.iata === depInput.toUpperCase() || a.name.toLowerCase().includes(depInput.toLowerCase()) || a.code === depInput.toUpperCase());
-    if (found) state.departureAirport = found;
+  // Robust check: if inputs are filled but state is empty or mismatch, try to resolve from AIRPORTS
+  if (depInput) {
+    const isCurrentMatch = state.departureAirport && depInput.includes(state.departureAirport.code);
+    if (!isCurrentMatch) {
+      const found = AIRPORTS.find(a => a.code === depInput.toUpperCase() || a.name.toLowerCase().includes(depInput.toLowerCase()) || a.city.toLowerCase().includes(depInput.toLowerCase()));
+      state.departureAirport = found || null;
+    }
   }
-  if (arrInput && !state.arrivalAirport) {
-    const found = AIRPORTS.find(a => a.iata === arrInput.toUpperCase() || a.name.toLowerCase().includes(arrInput.toLowerCase()) || a.code === arrInput.toUpperCase());
-    if (found) state.arrivalAirport = found;
+  if (arrInput) {
+    const isCurrentMatch = state.arrivalAirport && arrInput.includes(state.arrivalAirport.code);
+    if (!isCurrentMatch) {
+      const found = AIRPORTS.find(a => a.code === arrInput.toUpperCase() || a.name.toLowerCase().includes(arrInput.toLowerCase()) || a.city.toLowerCase().includes(arrInput.toLowerCase()));
+      state.arrivalAirport = found || null;
+    }
   }
 
   if (!state.departureAirport || !state.arrivalAirport) {
@@ -2235,17 +2312,26 @@ async function computeRoute() {
       }
     });
 
-    // Add waypoint markers
+    // Add waypoint markers and wind arrows
     routeWeather.forEach(wp => {
       const color = getWeatherSeverityColor(wp);
-      L.circleMarker([wp.lat, wp.lng], {
-        radius: 4,
-        fillColor: color,
-        fillOpacity: 0.9,
-        color: '#fff',
-        weight: 1
+      
+      // Wind direction arrow (pointing where wind is going)
+      const arrowRotation = wp.windDir; // +180 to point where it's going, or keep to point where it comes from. Let's point where it goes:
+      const goingDir = (wp.windDir + 180) % 360;
+      
+      L.marker([wp.lat, wp.lng], {
+        icon: L.divIcon({
+          html: `<div style="position:relative; width:20px; height:20px;">
+                   <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:8px; height:8px; border-radius:50%; background:${color}; border:1px solid #fff;"></div>
+                   <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(${goingDir}deg) translateY(-12px); font-size:14px; color:${color}; font-weight:bold; text-shadow: 0 0 2px #000;">↑</div>
+                 </div>`,
+          className: '',
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
+        })
       }).bindTooltip(
-        `${wp.temp}°C | Wind: ${wp.windSpeed} km/h | ${WMO_CODES[wp.weatherCode] || 'N/A'}`,
+        `${wp.temp}°C | Wind: ${wp.windSpeed} km/h @ ${wp.windDir}° | ${WMO_CODES[wp.weatherCode] || 'N/A'}`,
         { direction: 'top' }
       ).addTo(flightPathLayer);
     });
