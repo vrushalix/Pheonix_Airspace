@@ -1,0 +1,70 @@
+1. wind vectors are not working -  i have identified some soltuions for this:
+
+
+WebGL / GPU issue
+
+Windy uses WebGL for rendering wind animation.
+
+If disabled or unsupported:
+No moving particles
+Broken vectors
+
+👉 Fix:
+
+Enable hardware acceleration in your browser
+Update GPU drivers
+Try another browser (Chrome works best)
+
+1. Visualization setting (most likely)
+Windy has multiple display modes:
+Particles (animated flow)
+Arrows (vectors)
+Streamlines
+
+more information to help you
+Main wind data sources used by Windy
+
+Windy lets you switch between several forecast models. The wind patterns (including vectors) come from these:
+
+1. European Centre for Medium-Range Weather Forecasts (ECMWF)
+Default layer in Windy
+High accuracy globally
+Resolution: ~9 km
+Updates: every 6 hours
+👉 This is most likely what you’re seeing by default
+2. Global Forecast System (GFS)
+Global model from the U.S.
+Resolution: ~13–22 km
+Updates: every 6 hours
+👉 Slightly less accurate than ECMWF but widely used
+3. High Resolution Rapid Refresh (HRRR)
+Very high resolution (~3 km)
+Only covers the U.S.
+Updates hourly
+👉 Won’t work in Europe (important for your location in France)
+4. Other regional models (depending on zoom/location)
+ICON (Germany)
+AROME (France, high resolution)
+NAM (North America)
+
+These can sometimes provide better local wind detail.
+
+
+other small corrections:
+- i just don't want a P on the logo i want the logo of the bird
+- it is not letting me compute the route for a different place - please this has to be fixed
+- all the buttons are working but do not display any tempreture etc
+- when they click on these buttons and click anywhere in the map it has to show all these parameters of that point clicked on the map anywhere in the world
+
+
+Next main correction:
+when we click on optimise route user should be able to see the wind patterns only for that route
+also when i click on wind option the map darkens and after a certain zoom out it si breaking
+so i would like that to be fixed
+
+please use layers of tempreture, etc from sources like copernicus and sentinel
+or any other source that is best for this application
+
+=============================================================================================================================
+
+

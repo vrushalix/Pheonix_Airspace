@@ -1,0 +1,68 @@
+# Phoenix Services — Task Tracker
+
+## Phase 1A: Core Application (End-to-End Working)
+
+### Foundation
+- [/] Create `index.html` with full application structure
+- [ ] Beige/NetJets design system (colors, typography, cards, glass panels)
+- [ ] Responsive layout (sidebar + map + panels)
+
+### Authentication
+- [ ] Firebase SDK integration
+- [ ] Login screen (Email/Password + Google)
+- [ ] Registration form
+- [ ] Session persistence
+- [ ] "Skip Login" dev mode button
+
+### Map
+- [ ] Leaflet.js map initialization (CartoDB Dark Matter tiles)
+- [ ] Custom beige-tinted controls
+- [ ] Smooth zoom/pan interactions
+- [ ] Location search box
+
+### Weather Layers
+- [ ] Wind layer (animated particles on canvas)
+- [ ] Cloud cover layer (opacity overlay)
+- [ ] Temperature layer (color heatmap)
+- [ ] Rain layer (precipitation overlay)
+- [ ] Thunderstorm layer (storm markers)
+- [ ] Snow layer (snowfall overlay)
+- [ ] Fog/Visibility layer (density overlay)
+- [ ] Layer toggle panel (Windy.com-style sidebar)
+
+### Flight Routes
+- [ ] Pre-defined routes (8 major airport pairs)
+- [ ] Great-circle arc rendering
+- [ ] Route weather analysis coloring
+- [ ] Route info panel
+
+### Timeline
+- [ ] Bottom timeline bar (24-72hr scrubber)
+- [ ] Hourly data updates on scrub
+
+### Top Bar
+- [ ] Current conditions summary
+- [ ] UTC + local clock
+- [ ] Location search
+
+---
+
+## Phase 1B: Route Planning Tab (2nd Iteration)
+- [ ] Takeoff/landing location input
+- [ ] Route generation from weather data
+- [ ] Flight path visualization
+
+## Phase 1C: Fuel Efficiency Tab (2nd Iteration)
+- [ ] Weather-based fuel calculations
+- [ ] Standard vs enhanced route comparison
+- [ ] Savings display
+
+## Phase 1D: AI Training Tab (2nd Iteration)
+- [ ] Ollama local integration
+- [ ] Training data visualization
+- [ ] Enhanced route computation
+
+## Verification
+- [ ] Browser test — full end-to-end flow
+- [ ] Screenshot capture of all states
+- [ ] Responsive check

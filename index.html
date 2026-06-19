@@ -1296,7 +1296,7 @@
      ============================================ -->
   <div id="landing-page">
     <header class="landing-header">
-      <div class="logo">
+      <div class="logo" style="cursor: pointer;" onclick="showSection('home')">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.5"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-1.2-.3-2.4.5-2.8 1.7-.2.6 0 1.2.5 1.7L10 13l-3.5 3.5-3 1c-.5.2-.8.7-.8 1.2 0 .5.2 1 .5 1.2l3.5-3.5 1.2 1.2L4.5 21.5c.2.3.7.5 1.2.5.5 0 1-.3 1.2-.8l1-3 3.5-3.5 3.4 7.4c.5.5 1.1.7 1.7.5 1.2-.4 2-1.6 1.7-2.8l-1.4-1.4z" />
@@ -1306,6 +1306,7 @@
       <nav class="nav-links">
         <a href="#" onclick="showSection('product')">Product</a>
         <a href="#" onclick="showSection('enterprise')">Enterprise</a>
+        <a href="#" onclick="openAdminDemo()">Admin Dashboard</a>
         <a href="#" onclick="showSection('pricing')">Pricing</a>
         <a href="#" onclick="showSection('docs')">Docs</a>
       </nav>
@@ -1315,13 +1316,259 @@
       </div>
     </header>
 
-    <main class="hero">
+    <main class="hero" id="home-hero">
       <h1>Flight Intelligence<br>Built for Precision.</h1>
       <p>Aviation-grade weather intelligence and route optimization. Real-time atmospheric data meets advanced fuel efficiency analytics for the modern flight deck.</p>
       <div class="header-actions" style="justify-content: center;">
         <button class="btn-product" style="padding: 16px 32px; font-size: 1rem;" onclick="enterProduct()">Launch Application</button>
       </div>
     </main>
+
+    <!-- PRODUCT PRESENTATION SECTION -->
+    <section id="product-presentation" style="display: none; max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+      
+      <div style="text-align: center; margin-bottom: 60px;">
+        <h1 style="font-family: var(--font-display); font-size: 3.5rem; font-weight: 700; letter-spacing: -0.04em; margin-bottom: 24px; line-height: 1.1; color: var(--text-primary);">
+          Master the Elements.<br>
+          <span style="color: var(--accent-gold);">Optimize the Flight.</span>
+        </h1>
+        <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+          Phoenix Services is an advanced, weather-aware flight path intelligence platform. 
+          We integrate real-time atmospheric data, wind vectors, and AI-driven analysis to calculate the safest, most fuel-efficient routes in the sky.
+        </p>
+      </div>
+
+      <h2 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; text-align: center; margin-bottom: 40px; color: var(--text-primary);">Who it's for</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 80px;">
+        <!-- Pilots -->
+        <div style="background: var(--bg-card); padding: 32px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+          <div style="width: 48px; height: 48px; background: rgba(184, 150, 90, 0.1); border: 1px solid rgba(184, 150, 90, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px;">👨‍✈️</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">For Commercial Pilots</h3>
+          <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">Say goodbye to turbulence surprises. Phoenix provides pilots with real-time visualization of severe weather codes and wind gusts along their direct route. Make informed decisions to deviate smoothly, ensuring maximum passenger comfort and structural safety.</p>
+        </div>
+
+        <!-- ATCs -->
+        <div style="background: var(--bg-card); padding: 32px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+          <div style="width: 48px; height: 48px; background: rgba(184, 150, 90, 0.1); border: 1px solid rgba(184, 150, 90, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px;">📡</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">For Air Traffic Controllers</h3>
+          <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">Anticipate the flow. By seeing exactly where weather cells will push incoming traffic, ATCs can proactively manage sector capacities and suggest optimized holding patterns or alternate routings before airspace becomes congested.</p>
+        </div>
+
+        <!-- Pilot Schools -->
+        <div style="background: var(--bg-card); padding: 32px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+          <div style="width: 48px; height: 48px; background: rgba(184, 150, 90, 0.1); border: 1px solid rgba(184, 150, 90, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px;">🎓</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">For Pilot Schools</h3>
+          <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">The ultimate meteorological teaching tool. Instructors can use Phoenix to visually demonstrate how wind vectors affect fuel burn and flight times, training the next generation of aviators to plan routes that are not just direct, but intelligent.</p>
+        </div>
+      </div>
+
+      <!-- Why We Built Phoenix -->
+      <div style="margin-bottom: 80px;">
+        <h2 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; text-align: center; margin-bottom: 16px; color: var(--text-primary);">Why We Built Phoenix</h2>
+        <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px;">Most aviation startups fail because they build just another weather app.<br><strong style="color:var(--text-primary);">The opportunity is decision intelligence.</strong></p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+          <div style="background: var(--bg-card); padding: 32px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+            <div style="font-size: 1.5rem; margin-bottom: 16px;">👁️</div>
+            <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">One Screen = Mission Answer</h3>
+            <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">Pilots hate information overload. Instead of hunting through 15 overlays (winds, SIGMETs, NOTAMs) and mentally combining them, our system instantly answers: <em>Can I go? Which altitude? What route?</em></p>
+          </div>
+          <div style="background: var(--bg-card); padding: 32px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+            <div style="font-size: 1.5rem; margin-bottom: 16px;">⛽</div>
+            <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">Transparent Fuel Savings</h3>
+            <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">Fuel predictions lack transparency. We don't just recommend FL390. We show exactly why: <strong>Tailwind +42 kts, Fuel saving 184 kg, Time saving 5 mins.</strong> Showing the "Why" creates trust.</p>
+          </div>
+          <div style="background: var(--bg-card); padding: 32px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+            <div style="font-size: 1.5rem; margin-bottom: 16px;">🧠</div>
+            <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">Information Harmony</h3>
+            <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">Instead of making pilots mentally combine METARs, winds aloft, and NOTAMs, our engine synthesizes everything into a single Operational Risk Score.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Pipeline (Future Work) -->
+      <div style="margin-bottom: 80px;">
+        <h2 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; text-align: center; margin-bottom: 16px; color: var(--text-primary);">The Multi-Billion Dollar Gap</h2>
+        <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px;">The Pipeline: The ultimate vision is to become the <strong>Bloomberg Terminal for Aviation Operations.</strong> All from the same weather engine.</p>
+
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div style="background: var(--bg-card); border-radius: 24px; padding: 40px; border: 1px solid rgba(184, 150, 90, 0.2); box-shadow: var(--shadow-md); display: flex; align-items: flex-start; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 250px;">
+              <h3 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">Enterprise Dispatch View</h3>
+              <p style="color: var(--text-secondary); line-height: 1.6;">Airlines have weather tools, but they can't answer: <em>"How much money will this weather system cost us in the next 6 hours?"</em> The Dispatch View will forecast fleet impact, <strong>e.g., +18 tons fuel burn, €24,000 additional cost</strong>, and average delays directly to executives.</p>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+              <h3 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">ATC Predictability View</h3>
+              <p style="color: var(--text-secondary); line-height: 1.6;">ATC doesn't care about pretty weather animations; ATC cares about Predictability. Instead of just showing storms, we will predict <strong>23% arrival delay increases and 12% more holding</strong> before the airspace becomes congested.</p>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+              <h3 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">Total Offline Caching</h3>
+              <p style="color: var(--text-secondary); line-height: 1.6;">Many pilots operate where connectivity is unreliable. For pilots operating where connectivity drops, the app will pre-cache route weather, wind grids, and alternate airports for the entire flight mission before takeoff.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Impact Section -->
+      <div style="background: var(--bg-card); border-radius: 24px; padding: 48px; border: 1px solid rgba(184, 150, 90, 0.2); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 40px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px;">
+          <h2 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; margin-bottom: 16px; color: var(--text-primary);">The Final Impact</h2>
+          <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">Aviation currently accounts for roughly 2.5% of global CO₂ emissions. By intelligently routing aircraft to ride tailwinds and avoid harsh headwinds, Phoenix Services enables a massive reduction in global fuel consumption.</p>
+          
+          <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+            <li style="display: flex; gap: 12px; color: var(--text-primary); line-height: 1.5;">
+              <span style="color: var(--accent-gold); font-weight: bold;">✓</span>
+              <div><strong>Sustainability:</strong> Saves an estimated 5-8% in fuel burn per optimized long-haul flight, directly cutting thousands of tons of CO₂.</div>
+            </li>
+            <li style="display: flex; gap: 12px; color: var(--text-primary); line-height: 1.5;">
+              <span style="color: var(--accent-gold); font-weight: bold;">✓</span>
+              <div><strong>Economic Efficiency:</strong> Reduces operating costs for airlines and fleet operators by thousands of dollars per route.</div>
+            </li>
+            <li style="display: flex; gap: 12px; color: var(--text-primary); line-height: 1.5;">
+              <span style="color: var(--accent-gold); font-weight: bold;">✓</span>
+              <div><strong>Uncompromised Safety:</strong> Eliminates the guesswork of navigating through severe storm cells and extreme weather phenomena.</div>
+            </li>
+          </ul>
+        </div>
+        
+        <div style="flex: 1; min-width: 300px; background: var(--bg-dark); border-radius: 16px; padding: 40px; color: white; text-align: center;">
+          <div style="font-size: 3rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 8px; font-family: var(--font-display);">8%</div>
+          <div style="font-size: 1.1rem; margin-bottom: 32px; color: rgba(255,255,255,0.7);">Average Fuel Savings</div>
+          
+          <div style="font-size: 3rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 8px; font-family: var(--font-display);">100%</div>
+          <div style="font-size: 1.1rem; color: rgba(255,255,255,0.7);">Weather Awareness</div>
+        </div>
+      </div>
+      
+    </section>
+
+    <!-- ADMIN PRESENTATION SECTION -->
+    <section id="admin-presentation" style="display: none; position: fixed; inset: 0; z-index: 9999; background: #F9F6F0;">
+      <div style="display: flex; width: 100%; height: 100%;">
+        
+        <!-- Sidebar -->
+        <div style="width: 260px; background: white; border-right: 1px solid rgba(0,0,0,0.05); padding: 32px 16px; display: flex; flex-direction: column;">
+          <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 40px; padding-left: 16px; color: #1A1A1A;">
+            Phoenix <span style="color: #C29F5D;">Admin</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="padding: 12px 16px; border: 1px solid #111; border-radius: 8px; background: #fff; color: #C29F5D; font-weight: 600; font-size: 0.95rem; cursor: pointer;">
+              Overview
+            </div>
+            <div style="padding: 12px 16px; color: #666; font-size: 0.95rem; cursor: pointer;">User Management</div>
+            <div style="padding: 12px 16px; color: #666; font-size: 0.95rem; cursor: pointer;">Audit Logs</div>
+            <div style="padding: 12px 16px; color: #666; font-size: 0.95rem; cursor: pointer;">Billing & Plans</div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div style="flex: 1; padding: 48px; display: flex; flex-direction: column; overflow-y: auto;">
+          <!-- Header -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+            <div>
+              <h1 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: #1A1A1A; margin-bottom: 8px;">Platform Overview</h1>
+              <p style="color: #666; font-size: 1.05rem;">Manage Phoenix Services infrastructure and users.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span style="color: #888; font-size: 0.9rem;">Environment: Production</span>
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #C29F5D; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.1rem;">A</div>
+              <!-- Close button to go back -->
+              <button onclick="document.getElementById('admin-presentation').style.display = 'none'" style="margin-left: 16px; padding: 8px 16px; background: transparent; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; color: #333; font-weight: 600;">Close</button>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px;">
+            <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+              <div style="color: #666; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase;">Total Active Users</div>
+              <div style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: #1A1A1A; margin-bottom: 8px; line-height: 1;">1,245</div>
+              <div style="color: #059669; font-size: 0.9rem;">↑ +12% this month</div>
+            </div>
+            <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+              <div style="color: #666; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase;">New Signups (7D)</div>
+              <div style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: #1A1A1A; margin-bottom: 8px; line-height: 1;">84</div>
+              <div style="color: #059669; font-size: 0.9rem;">↑ +5% vs last week</div>
+            </div>
+            <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+              <div style="color: #666; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase;">MRR (Estimated)</div>
+              <div style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: #1A1A1A; margin-bottom: 8px; line-height: 1;">$18,450</div>
+              <div style="color: #059669; font-size: 0.9rem;">↑ +8% vs last month</div>
+            </div>
+          </div>
+
+          <!-- Subscription Distribution -->
+          <div style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+            <div style="font-weight: 700; color: #1A1A1A; font-size: 1.15rem; margin-bottom: 24px;">Subscription Distribution</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+              <!-- Free -->
+              <div>
+                <div style="display: flex; justify-content: space-between; color: #333; font-size: 0.95rem; margin-bottom: 8px;">
+                  <span>Free</span>
+                  <span style="font-weight: 600;">66%</span>
+                </div>
+                <div style="height: 6px; background: #eee; border-radius: 3px; margin-bottom: 8px; overflow: hidden;">
+                  <div style="width: 66%; height: 100%; background: #9ca3af; border-radius: 3px;"></div>
+                </div>
+                <div style="color: #888; font-size: 0.85rem;">820 users</div>
+              </div>
+              <!-- Student Pro -->
+              <div>
+                <div style="display: flex; justify-content: space-between; color: #333; font-size: 0.95rem; margin-bottom: 8px;">
+                  <span>Student Pro</span>
+                  <span style="font-weight: 600;">20%</span>
+                </div>
+                <div style="height: 6px; background: #eee; border-radius: 3px; margin-bottom: 8px; overflow: hidden;">
+                  <div style="width: 20%; height: 100%; background: #C29F5D; border-radius: 3px;"></div>
+                </div>
+                <div style="color: #888; font-size: 0.85rem;">250 users</div>
+              </div>
+              <!-- Professional -->
+              <div>
+                <div style="display: flex; justify-content: space-between; color: #333; font-size: 0.95rem; margin-bottom: 8px;">
+                  <span>Professional</span>
+                  <span style="font-weight: 600;">12%</span>
+                </div>
+                <div style="height: 6px; background: #eee; border-radius: 3px; margin-bottom: 8px; overflow: hidden;">
+                  <div style="width: 12%; height: 100%; background: #2563eb; border-radius: 3px;"></div>
+                </div>
+                <div style="color: #888; font-size: 0.85rem;">150 users</div>
+              </div>
+              <!-- Enterprise -->
+              <div>
+                <div style="display: flex; justify-content: space-between; color: #333; font-size: 0.95rem; margin-bottom: 8px;">
+                  <span>Enterprise</span>
+                  <span style="font-weight: 600;">2%</span>
+                </div>
+                <div style="height: 6px; background: #eee; border-radius: 3px; margin-bottom: 8px; overflow: hidden;">
+                  <div style="width: 2%; height: 100%; background: #111827; border-radius: 3px;"></div>
+                </div>
+                <div style="color: #888; font-size: 0.85rem;">25 users</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Admin Iframe Overlay (loads Next /admin) -->
+  <div id="admin-iframe-overlay" style="display:none; position:fixed; inset:0; z-index:40000; background: rgba(28,25,23,0.6); backdrop-filter: blur(6px);">
+    <div style="position: absolute; inset: 40px; background: white; border-radius: 12px; overflow: hidden; display:flex; flex-direction:column;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 20px; border-bottom: 1px solid rgba(0,0,0,0.06);">
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div style="width:36px; height:36px; border-radius:8px; background:var(--accent-gold); display:flex; align-items:center; justify-content:center; color:white; font-weight:700;">A</div>
+          <div style="font-weight:700; color:#1C1917;">Phoenix Admin Demo</div>
+        </div>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div style="color:#666; font-size:0.9rem;">Tip: run the Next dev server at <strong>http://localhost:3000</strong></div>
+          <button onclick="closeAdminDemo()" style="padding:8px 12px; border-radius:8px; border:none; background:#111827; color:white; cursor:pointer;">Close</button>
+        </div>
+      </div>
+      <div style="flex:1; position:relative;">
+        <iframe id="admin-demo-iframe" src="http://localhost:3000/admin" style="width:100%; height:100%; border:0;" title="Admin Demo"></iframe>
+      </div>
+    </div>
   </div>
 
   <!-- ============================================
@@ -1372,6 +1619,34 @@
     </div>
   </div>
 
+  <script>
+    function openAdminDemo() {
+      const overlay = document.getElementById('admin-iframe-overlay');
+      if (!overlay) return alert('Admin demo not available');
+      overlay.style.display = 'block';
+      // try to reload iframe to ensure fresh content
+      const iframe = document.getElementById('admin-demo-iframe');
+      if (iframe) {
+        iframe.src = iframe.src;
+        // after a short timeout, if the iframe hasn't loaded, show a helpful message
+        setTimeout(() => {
+          try {
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            // if cross-origin or not ready, skip
+          } catch (e) {
+            // ignore cross-origin access
+          }
+        }, 800);
+      }
+    }
+
+    function closeAdminDemo() {
+      const overlay = document.getElementById('admin-iframe-overlay');
+      if (!overlay) return;
+      overlay.style.display = 'none';
+    }
+  </script>
+
   <!-- ============================================
      MAIN APPLICATION
      ============================================ -->
@@ -1404,6 +1679,11 @@
       <button class="nav-btn" data-tab="ai" onclick="switchTab('ai')" id="nav-ai">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
         <span class="nav-tooltip">AI Analysis</span>
+      </button>
+
+      <button class="nav-btn" data-tab="admin" onclick="switchTab('admin')" id="nav-admin">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        <span class="nav-tooltip">Admin Dashboard</span>
       </button>
 
       <div class="nav-spacer"></div>
@@ -1676,6 +1956,50 @@
             [Phoenix AI] Initializing engine...
             [Phoenix AI] Waiting for route data...
           </div>
+        </div>
+      </div>
+
+      <!-- Admin Panel -->
+      <div class="ai-panel" id="admin-panel">
+        <div class="info-card">
+          <div class="info-card-header">
+            <span class="info-card-title">System Overview</span>
+            <span class="info-card-badge badge-live" style="background:var(--danger);">ADMIN</span>
+          </div>
+          <div class="ai-training-grid">
+            <div class="ai-data-cell">
+              <div class="ai-data-cell-value">2,845</div>
+              <div class="ai-data-cell-label">Active Users</div>
+            </div>
+            <div class="ai-data-cell">
+              <div class="ai-data-cell-value">48</div>
+              <div class="ai-data-cell-label">Airlines</div>
+            </div>
+            <div class="ai-data-cell">
+              <div class="ai-data-cell-value">99.9%</div>
+              <div class="ai-data-cell-label">Uptime</div>
+            </div>
+            <div class="ai-data-cell">
+              <div class="ai-data-cell-value">12.4k</div>
+              <div class="ai-data-cell-label">API Calls/hr</div>
+            </div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-header">
+            <span class="info-card-title">Recent Activity</span>
+          </div>
+          <div class="ai-log" style="color:var(--text-primary); background:var(--bg-primary); border:1px solid var(--border);">
+            [08:42] New Enterprise Reg: Lufthansa Group<br>
+            [08:40] AI Engine optimized 40 routes<br>
+            [08:35] User flagged turbulence in Sector 4<br>
+            [08:30] Weather API synced (ECMWF)
+          </div>
+        </div>
+        <div class="info-card">
+          <button class="route-compute-btn" style="width:100%; background:var(--danger);" onclick="alert('Access restricted to Super Admins')">
+            Manage Roles & Permissions
+          </button>
         </div>
       </div>
 
@@ -2815,7 +3139,8 @@
         weather: 'Weather Map',
         routes: 'Route Planner',
         fuel: 'Fuel Efficiency',
-        ai: 'AI Analysis'
+        ai: 'AI Analysis',
+        admin: 'Admin Dashboard'
       };
       document.getElementById('tab-title').textContent = titles[tab] || tab;
 
@@ -2825,6 +3150,7 @@
       document.getElementById('route-panel').classList.toggle('visible', tab === 'routes');
       document.getElementById('fuel-panel').classList.toggle('visible', tab === 'fuel');
       document.getElementById('ai-panel').classList.toggle('visible', tab === 'ai');
+      document.getElementById('admin-panel').classList.toggle('visible', tab === 'admin');
     }
 
     // ============================================
@@ -2941,10 +3267,23 @@
     // NAVIGATION & PAGE FLOW
     // ============================================
     function showSection(section) {
+      document.getElementById('home-hero').style.display = 'none';
+      document.getElementById('product-presentation').style.display = 'none';
+      document.getElementById('admin-presentation').style.display = 'none';
+      
+      // Update nav links styling
+      document.querySelectorAll('.nav-links a').forEach(a => a.style.color = '');
+
       if (section === 'product') {
-        enterProduct();
+        document.getElementById('product-presentation').style.display = 'block';
+        if (event && event.target) event.target.style.color = 'var(--accent-gold)';
+      } else if (section === 'admin') {
+        document.getElementById('admin-presentation').style.display = 'block';
+        if (event && event.target) event.target.style.color = 'var(--accent-gold)';
+      } else if (section === 'home') {
+        document.getElementById('home-hero').style.display = 'block';
       } else {
-        // Placeholder for other sections
+        document.getElementById('home-hero').style.display = 'block';
         console.log(`Navigating to ${section}...`);
       }
     }

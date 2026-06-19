@@ -1,0 +1,328 @@
+# EO Platform Backend Implementation Sprint
+
+You are acting as a Senior Backend Architect and Full-Stack Engineer.
+
+I am building a production-grade SaaS platform and need you to implement the following backend systems with scalability, security, and startup growth in mind.
+
+## Tech Stack
+
+* Frontend: React / Next.js
+* Backend: Firebase
+* Authentication: Firebase Auth
+* Database: Firestore
+* Storage: Firebase Storage
+* Analytics: Google Analytics 4
+* Hosting: Firebase Hosting
+* CRM: Recommend best startup-friendly CRM integrations
+* Payments: Stripe
+* Legal: GDPR-compliant implementation
+
+---
+
+# MONDAY — BUSINESS OPERATIONS
+
+## Role-Based Access Control (RBAC)
+
+Create a complete RBAC architecture with the following roles:
+
+### Public User
+
+Can:
+
+* Create account
+* Login
+* View personal dashboard
+* Manage own profile
+* Access platform features allowed by subscription
+
+Cannot:
+
+* View admin data
+* Access employee tools
+* Modify platform settings
+
+### Employee
+
+Can:
+
+* View assigned users
+* Access internal dashboards
+* Manage customer support actions
+* View operational metrics
+
+Cannot:
+
+* Access billing configuration
+* Modify global system settings
+
+### Admin
+
+Can:
+
+* Full system access
+* User management
+* Employee management
+* Billing management
+* Analytics access
+* Platform configuration
+
+### Required Deliverables
+
+* Firebase custom claims implementation
+* Middleware route protection
+* Firestore security rules
+* Permission checking utilities
+* Protected API architecture
+* Audit logs for admin actions
+
+---
+
+## Admin Dashboard
+
+Build a custom admin dashboard containing:
+
+### User Management
+
+* Total users
+* Active users
+* New registrations
+* Search users
+* Suspend users
+* Delete users
+
+### Employee Management
+
+* Employee list
+* Employee roles
+* Activity tracking
+
+### Platform Metrics
+
+* Daily active users
+* Weekly active users
+* Monthly active users
+* Session counts
+
+### Audit Center
+
+* Login history
+* Admin actions
+* Employee actions
+
+Design dashboard schema and Firestore collections.
+
+---
+
+# TUESDAY — USER INTELLIGENCE
+
+## Google Analytics 4
+
+Integrate GA4 with:
+
+### Event Tracking
+
+* Sign Up
+* Login
+* Logout
+* Feature Usage
+* Subscription Purchase
+* Page Views
+
+### Conversion Tracking
+
+* Trial Started
+* Lead Generated
+* Payment Completed
+
+Create implementation code examples.
+
+---
+
+## Firebase Telemetry System
+
+Create a custom telemetry collection.
+
+Track:
+
+### User Metrics
+
+* First login date
+* Last login date
+* Total login count
+* Device type
+* Browser
+* Country
+* Referral source
+
+### Engagement Metrics
+
+* Feature usage frequency
+* Session duration
+* Retention metrics
+* User journey tracking
+
+### Growth Metrics
+
+* Acquisition source
+* UTM parameters
+* Marketing campaign attribution
+
+Create Firestore schema and Cloud Functions architecture.
+
+---
+
+# WEDNESDAY — GO-TO-MARKET SYSTEMS
+
+## CRM Integration
+
+Recommend and integrate a startup-friendly CRM.
+
+Requirements:
+
+* Free tier available
+* Lead tracking
+* Email automation
+* Sales pipeline
+* API access
+
+Evaluate:
+
+* HubSpot
+* Zoho
+* Pipedrive
+
+Provide recommendation and implementation plan.
+
+---
+
+## Lead Generation System
+
+Create backend flows for:
+
+### Contact Forms
+
+Capture:
+
+* Name
+* Email
+* Company
+* Message
+
+Store in Firestore and CRM.
+
+### Demo Requests
+
+Capture:
+
+* User details
+* Organization
+* Business needs
+
+### Newsletter Signup
+
+Capture:
+
+* Email
+* Source
+
+---
+
+## Early Traction Dashboard
+
+Build dashboard tracking:
+
+### Growth KPIs
+
+* Signups
+* Leads
+* Demo requests
+* Conversion rates
+
+### Marketing KPIs
+
+* Traffic sources
+* Campaign performance
+* Referral performance
+
+### Revenue KPIs
+
+* MRR
+* Trial-to-paid conversion
+* Churn rate
+
+---
+
+# THURSDAY — PAYMENTS & LEGAL
+
+## Stripe Integration
+
+Implement:
+
+### Subscription Plans
+
+* Free
+* Pro
+* Enterprise
+
+### Features
+
+* Checkout Sessions
+* Customer Portal
+* Webhooks
+* Subscription Status Sync
+* Invoice Tracking
+
+### Firestore Collections
+
+Design billing schemas.
+
+### Security
+
+Prevent:
+
+* Subscription spoofing
+* Unauthorized access
+* Webhook abuse
+
+---
+
+## Legal & Compliance
+
+Implement GDPR-ready architecture.
+
+### Requirements
+
+* Cookie Consent Banner
+* Privacy Policy
+* Terms of Service
+* Data Export Request
+* Account Deletion Request
+
+### User Rights
+
+* Download data
+* Delete account
+* Consent management
+
+### Security
+
+* Encryption best practices
+* Secure user data storage
+* Audit logs
+
+---
+
+# OUTPUT FORMAT
+
+For each section provide:
+
+1. Architecture diagram
+2. Firestore schema
+3. Cloud Functions structure
+4. API endpoints
+5. Security considerations
+6. Step-by-step implementation plan
+7. Production deployment checklist
+8. Future scalability recommendations
+
+Prioritize startup speed, low operational cost, Firebase-native architecture, and readiness for the first 10,000 users.

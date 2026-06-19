@@ -1,0 +1,124 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ─────────────────────────────────
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserRole() {
+      return request.auth.token.role;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+
+    function isEmployee() {
+      return isAuthenticated() && (getUserRole() == 'employee' || getUserRole() == 'admin');
+    }
+
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    // ── /users/{uid} ─────────────────────────────────────
+    match /users/{uid} {
+      // User can read their own doc; employees/admins can read all
+      allow read: if isOwner(uid) || isEmployee();
+
+      // Only Cloud Functions (admin SDK) can create/set role
+      // Users can update their own non-sensitive fields
+      allow update: if isOwner(uid) &&
+        !request.resource.data.diff(resource.data).affectedKeys()
+          .hasAny(['role', 'status', 'subscriptionTier']);
+
+      // Only admins can delete
+      allow delete: if isAdmin();
+
+      // Creation only via Cloud Functions (admin SDK bypasses rules)
+      allow create: if false;
+    }
+
+    // ── /audit_logs/{logId} ───────────────────────────────
+    match /audit_logs/{logId} {
+      // Only admins and employees can read audit logs
+      allow read: if isEmployee();
+      // Only Cloud Functions write audit logs
+      allow write: if false;
+    }
+
+    // ── /subscriptions/{uid} ─────────────────────────────
+    match /subscriptions/{uid} {
+      // User reads their own subscription; admins read all
+      allow read: if isOwner(uid) || isAdmin();
+      // Only Cloud Functions (Stripe webhooks) write subscriptions
+      allow write: if false;
+    }
+
+    // ── /invoices/{invoiceId} ────────────────────────────
+    match /invoices/{invoiceId} {
+      allow read: if isAuthenticated() &&
+        (resource.data.uid == request.auth.uid || isAdmin());
+      allow write: if false; // Cloud Functions only
+    }
+
+    // ── /telemetry/{uid} ─────────────────────────────────
+    match /telemetry/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow write: if false; // Cloud Functions only
+    }
+
+    // ── /sessions/{sessionId} ────────────────────────────
+    match /sessions/{sessionId} {
+      allow read: if isAdmin();
+      // Users can create their own sessions
+      allow create: if isAuthenticated() &&
+        request.resource.data.uid == request.auth.uid;
+      allow update: if isAuthenticated() &&
+        resource.data.uid == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // ── /leads/{leadId} ──────────────────────────────────
+    match /leads/{leadId} {
+      // GDPR: leads only readable by employees/admins
+      allow read: if isEmployee();
+      // Anyone can submit a lead (contact form)
+      allow create: if request.resource.data.gdprConsent == true;
+      allow update, delete: if isAdmin();
+    }
+
+    // ── /demo_requests/{requestId} ───────────────────────
+    match /demo_requests/{requestId} {
+      allow read: if isEmployee();
+      allow create: if true; // Public form
+      allow update: if isEmployee();
+      allow delete: if isAdmin();
+    }
+
+    // ── /consent_records/{uid} ───────────────────────────
+    match /consent_records/{uid} {
+      // Users manage their own consent; admins can read for GDPR audit
+      allow read: if isOwner(uid) || isAdmin();
+      allow create, update: if isOwner(uid);
+      allow delete: if false; // Consent records must be retained for GDPR proof
+    }
+
+    // ── /data_requests/{requestId} ───────────────────────
+    match /data_requests/{requestId} {
+      allow read: if isAuthenticated() &&
+        (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() &&
+        request.resource.data.uid == request.auth.uid;
+      allow update: if isAdmin(); // Admins process requests
+      allow delete: if false;
+    }
+
+    // ── Deny everything else ──────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
