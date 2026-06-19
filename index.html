@@ -1387,25 +1387,92 @@
         </div>
       </div>
 
-      <!-- The Pipeline (Future Work) -->
+      <!-- Who We Serve + Transformation Diagram (Pitch visual) -->
       <div style="margin-bottom: 80px;">
-        <h2 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; text-align: center; margin-bottom: 16px; color: var(--text-primary);">The Multi-Billion Dollar Gap</h2>
-        <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px;">The Pipeline: The ultimate vision is to become the <strong>Bloomberg Terminal for Aviation Operations.</strong> All from the same weather engine.</p>
+        <h2 style="font-family: var(--font-display); font-size: 2rem; font-weight: 700; text-align: left; margin-bottom: 18px; color:var(--text-primary);">Who we serve</h2>
 
-        <div style="display: flex; flex-direction: column; gap: 24px;">
-          <div style="background: var(--bg-card); border-radius: 24px; padding: 40px; border: 1px solid rgba(184, 150, 90, 0.2); box-shadow: var(--shadow-md); display: flex; align-items: flex-start; gap: 30px; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 250px;">
-              <h3 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">Enterprise Dispatch View</h3>
-              <p style="color: var(--text-secondary); line-height: 1.6;">Airlines have weather tools, but they can't answer: <em>"How much money will this weather system cost us in the next 6 hours?"</em> The Dispatch View will forecast fleet impact, <strong>e.g., +18 tons fuel burn, €24,000 additional cost</strong>, and average delays directly to executives.</p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:18px; margin-bottom:22px;">
+          <!-- Pilots card -->
+          <div style="background:var(--bg-card); border-radius:12px; padding:20px; border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+            <div style="display:flex; gap:12px; align-items:flex-start;">
+              <div style="width:44px; height:44px; border-radius:10px; background:rgba(197,217,255,0.3); display:flex; align-items:center; justify-content:center; color:#5065D6; font-weight:700;">P</div>
+              <div>
+                <div style="font-weight:700; color:var(--text-primary);">Pilots</div>
+                <div style="color:var(--text-secondary); font-size:0.95rem; margin-top:8px;">Flight deck needs</div>
+              </div>
             </div>
-            <div style="flex: 1; min-width: 250px;">
-              <h3 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">ATC Predictability View</h3>
-              <p style="color: var(--text-secondary); line-height: 1.6;">ATC doesn't care about pretty weather animations; ATC cares about Predictability. Instead of just showing storms, we will predict <strong>23% arrival delay increases and 12% more holding</strong> before the airspace becomes congested.</p>
+
+            <ul style="margin-top:14px; color:var(--text-secondary); list-style:none; padding-left:0; display:flex; flex-direction:column; gap:10px;">
+              <li style="display:flex; gap:10px; align-items:flex-start;"><div style="width:18px;height:18px;border-radius:4px;background:#EEF2FF;border:1px solid rgba(80,101,214,0.12);"></div><div>Visual clarity — Wind maps, cloud layers, turbulence markers</div></li>
+              <li style="display:flex; gap:10px; align-items:flex-start;"><div style="width:18px;height:18px;border-radius:4px;background:#FFF6EB;border:1px solid rgba(194,159,93,0.12);"></div><div>Transparent fuel math — Explain why a route/altitude is recommended</div></li>
+              <li style="display:flex; gap:10px; align-items:flex-start;"><div style="width:18px;height:18px;border-radius:4px;background:#F3F4F6;border:1px solid rgba(20,20,20,0.03);"></div><div>Offline reliability — Pre-cached data and degraded-mode guidance</div></li>
+              <li style="display:flex; gap:10px; align-items:flex-start;"><div style="width:18px;height:18px;border-radius:4px;background:#EEF6EE;border:1px solid rgba(22,101,52,0.06);"></div><div>Trust & explainability — Auditable logs for pilots and regulators</div></li>
+            </ul>
+          </div>
+
+          <!-- ATC card -->
+          <div style="background:var(--bg-card); border-radius:12px; padding:20px; border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+            <div style="display:flex; gap:12px; align-items:flex-start;">
+              <div style="width:44px; height:44px; border-radius:10px; background:rgba(220,255,238,0.45); display:flex; align-items:center; justify-content:center; color:#0EA56C; font-weight:700;">ATC</div>
+              <div>
+                <div style="font-weight:700; color:var(--text-primary);">Air Traffic Control</div>
+                <div style="color:var(--text-secondary); font-size:0.95rem; margin-top:8px;">Operational needs</div>
+              </div>
             </div>
-            <div style="flex: 1; min-width: 250px;">
-              <h3 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">Total Offline Caching</h3>
-              <p style="color: var(--text-secondary); line-height: 1.6;">Many pilots operate where connectivity is unreliable. For pilots operating where connectivity drops, the app will pre-cache route weather, wind grids, and alternate airports for the entire flight mission before takeoff.</p>
+
+            <ul style="margin-top:14px; color:var(--text-secondary); list-style:none; padding-left:0; display:flex; flex-direction:column; gap:10px;">
+              <li style="display:flex; gap:10px; align-items:flex-start;"><div style="width:18px;height:18px;border-radius:4px;background:#EFFCF2;border:1px solid rgba(14,165,108,0.08);"></div><div>Predictability — Sector load forecasts & reroute corridors</div></li>
+              <li style="display:flex; gap:10px; align-items:flex-start;"><div style="width:18px;height:18px;border-radius:4px;background:#FFF6EB;border:1px solid rgba(194,159,93,0.12);"></div><div>Actionable alerts — Early warnings on sector overloads</div></li>
+              <li style="display:flex; gap:10px; align-items:flex-start;"><div style="width:18px;height:18px;border-radius:4px;background:#F3F4F6;border:1px solid rgba(20,20,20,0.03);"></div><div>Aggregated impact — Fleet-level delay & fuel estimates</div></li>
+              <li style="display:flex; gap:10px; align-items:flex-start;"><div style="width:18px;height:18px;border-radius:4px;background:#EEF2FF;border:1px solid rgba(80,101,214,0.08);"></div><div>Integrations — Dispatch / ATC APIs for coordination</div></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Diagram row -->
+        <div style="display:flex; gap:20px; align-items:center; justify-content:space-between; margin-bottom:18px;">
+          <!-- Raw sources -->
+          <div style="flex:1; max-width:260px; display:flex; flex-direction:column; gap:12px;">
+            <div style="background:var(--bg-card); padding:10px 14px; border-radius:10px; border:1px solid var(--border);">METAR / TAF</div>
+            <div style="background:var(--bg-card); padding:10px 14px; border-radius:10px; border:1px solid var(--border);">SYNOP / ECMWF</div>
+            <div style="background:var(--bg-card); padding:10px 14px; border-radius:10px; border:1px solid var(--border);">SIGMET / AIRMET</div>
+            <div style="background:var(--bg-card); padding:10px 14px; border-radius:10px; border:1px solid var(--border);">Winds / ADS‑B</div>
+            <div style="background:var(--bg-card); padding:10px 14px; border-radius:10px; border:1px solid var(--border);">NOTAMs</div>
+          </div>
+
+          <!-- Center engine -->
+          <div style="flex:0 0 340px; display:flex; justify-content:center; align-items:center;">
+            <div style="background:linear-gradient(180deg,#FFF7ED,#FFFDF9); border-radius:16px; padding:22px 24px; border:1px solid rgba(194,159,93,0.12); box-shadow:var(--shadow-md); text-align:center; width:100%;">
+              <div style="font-weight:700; color:var(--text-primary); font-size:1.05rem; margin-bottom:6px;">Phoenix</div>
+              <div style="color:var(--text-secondary); font-size:0.95rem;">Simplification engine</div>
             </div>
+          </div>
+
+          <!-- Outputs -->
+          <div style="flex:1; max-width:320px; display:flex; flex-direction:column; gap:12px;">
+            <div style="background:var(--bg-card); padding:10px 14px; border-radius:10px; border:1px solid var(--border);">Visual layers — Wind · clouds · turbulence · icing</div>
+            <div style="background:var(--bg-card); padding:10px 14px; border-radius:10px; border:1px solid var(--border);">Mission answer — Go/no‑go · alt · route</div>
+            <div style="background:var(--bg-card); padding:10px 14px; border-radius:10px; border:1px solid var(--border);">Offline package — Compressed mission snapshot</div>
+          </div>
+        </div>
+
+        <!-- Design principles -->
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px;">
+          <div style="background:var(--bg-card); padding:16px; border-radius:10px; border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+            <div style="font-weight:700; color:var(--text-primary); margin-bottom:6px;">Progressive disclosure</div>
+            <div style="color:var(--text-secondary);">One‑screen summary with expandable detail on demand</div>
+          </div>
+          <div style="background:var(--bg-card); padding:16px; border-radius:10px; border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+            <div style="font-weight:700; color:var(--text-primary); margin-bottom:6px;">Strong visual encoding</div>
+            <div style="color:var(--text-secondary);">Color + motion for winds; opacity for cloud density</div>
+          </div>
+          <div style="background:var(--bg-card); padding:16px; border-radius:10px; border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+            <div style="font-weight:700; color:var(--text-primary); margin-bottom:6px;">Minimal interaction</div>
+            <div style="color:var(--text-secondary);">A recommendation in one click, no deep navigation</div>
+          </div>
+          <div style="background:var(--bg-card); padding:16px; border-radius:10px; border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+            <div style="font-weight:700; color:var(--text-primary); margin-bottom:6px;">Annotated explainers</div>
+            <div style="color:var(--text-secondary);">Show exactly why a recommendation changed</div>
           </div>
         </div>
       </div>
